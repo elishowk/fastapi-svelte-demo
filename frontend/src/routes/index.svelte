@@ -1,2 +1,2 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<h1>Welcome to this demo using SvelteKit, FastAPI and Piccolo ORM</h1>
+<p>Visit <a href="https://github.com/elishowk/fastapi-svelte-demo">elishowk/fastapi-svelte-demo</a> to read the documentation</p>
