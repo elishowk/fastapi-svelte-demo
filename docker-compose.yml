@@ -6,22 +6,25 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
+    command: node build/index.js
     volumes:
       - ./frontend:/usr/src/app
     ports:
       - "3000:3000"
     environment:
-      VITE_API_BASE_PATH: $VITE_API_BASE_PATH
+      VITE_API_BASE_PATH: http://backend:8000
     depends_on:
-      - postgres
-      - fastapi
+      - db
+      - backend
 
-  fastapi:
+  backend:
     container_name: backend
-    build: ./piccolo-fastapi
-    command: uvicorn app:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: uvicorn main:app --host 0.0.0.0 --reload
     volumes:
-      - ./piccolo-fastapi:/usr/src/app
+      - ./backend:/app
     ports:
       - 8000:8000
     environment:
@@ -31,9 +34,9 @@ services:
       POSTGRES_PORT: $POSTGRES_PORT
       POSTGRES_HOST: $POSTGRES_HOST
     depends_on:
-      - postgres
+      - db
 
-  postgres:
+  db:
     container_name: db
     image: postgres
     environment:
@@ -50,4 +53,4 @@ volumes:
 
 networks:
   default:
-    name: fastapi-piccolo
+    name: fastapi-svelte-demo

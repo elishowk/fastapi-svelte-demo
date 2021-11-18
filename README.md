@@ -1,5 +1,29 @@
 # Demo Project
 
+## Initialize the development environment
+
+```
+docker-compose up -d db
+cd backend/
+python3 -m venv .venv
+pip install -r requirements.txt
+source .venv/bin/activate
+piccolo migrations forwards session_auth
+piccolo migrations forwards user
+piccolo user create
+```
+
+Make sure you enter y when asked if it’s an admin user, otherwise the user won’t be able to login to the Piccolo admin GUI.
+
+## Run de development environment
+
+```
+docker-compose up
+```
+
+Open http://localhost:300
+Or Admin UI at http://localhost:8000/admin with user and password created above
+
 ## Frontend
 
 It's build with [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);
@@ -34,3 +58,8 @@ npm run build
 
 ## Backend
 
+### Migrations
+
+```
+piccolo migrations forwards session_auth
+```

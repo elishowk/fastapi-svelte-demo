@@ -1,0 +1,13 @@
+FROM node:lts-bullseye-slim
+
+# set work directory
+WORKDIR /usr/src/app
+
+# install dependencies
+COPY package.json .
+RUN npm install
+
+# copy project
+COPY . .
+
+RUN npm run build

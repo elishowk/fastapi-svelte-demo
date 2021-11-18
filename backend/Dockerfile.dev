@@ -1,0 +1,18 @@
+FROM python:3-slim as base
+# set work directory
+WORKDIR /app
+# set env variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+# install dependencies
+COPY requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
+
+FROM python:3-slim
+# set work directory
+WORKDIR /app
+COPY --from=base /wheels /wheels
+COPY --from=base /app/requirements.txt .
+RUN pip install --no-cache /wheels/*
+# copy project
+COPY . .
