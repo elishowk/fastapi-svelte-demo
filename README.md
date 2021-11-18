@@ -4,16 +4,19 @@
 
 ```
 docker-compose up -d db
+createdb -h localhost -U postgres fastapi-svelte-demo
 cd backend/
 python3 -m venv .venv
-pip install -r requirements.txt
 source .venv/bin/activate
+pip install -r requirements.txt
+piccolo --diagnose
 piccolo migrations forwards session_auth
 piccolo migrations forwards user
 piccolo user create
 ```
 
 Make sure you enter y when asked if it’s an admin user, otherwise the user won’t be able to login to the Piccolo admin GUI.
+If there's an issue with piccolo orm init, check what's happening with: `piccolo --diagnose`
 
 ## Run de development environment
 
@@ -58,8 +61,6 @@ npm run build
 
 ## Backend
 
-### Migrations
+### API docs
 
-```
-piccolo migrations forwards session_auth
-```
+AP§I docs are generated automatically by FastApi at `http://127.0.0.1:8000/docs`

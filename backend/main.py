@@ -11,7 +11,7 @@ from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.routing import Mount
 
 
-app = FastAPI(
+api = FastAPI(
     routes=[
         Mount(
             "/admin/",
@@ -25,7 +25,7 @@ app = FastAPI(
 
 
 # Don't allow all in production, only for testing purposes!
-app.add_middleware(
+api.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
@@ -36,7 +36,7 @@ app.add_middleware(
 
 session_auth = (
     AuthenticationMiddleware(
-        app,
+        api,
         backend=SessionsAuthBackend(
             auth_table=BaseUser,
             session_table=SessionsBase,
@@ -49,10 +49,10 @@ session_auth = (
 )
 
 # API Routers
-# app.include_router(some_router)
+# api.include_router(some_router)
 
 
-@app.on_event("startup")
+@api.on_event("startup")
 async def open_database_connection_pool():
     try:
         engine = engine_finder()
@@ -61,7 +61,7 @@ async def open_database_connection_pool():
         print("Unable to connect to the database")
 
 
-@app.on_event("shutdown")
+@api.on_event("shutdown")
 async def close_database_connection_pool():
     try:
         engine = engine_finder()
